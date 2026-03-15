@@ -1,2 +1,2 @@
-#GeniusLab-Org-chart
+# GeniusLab-Org-chart
 ~ work of Abhinaya
