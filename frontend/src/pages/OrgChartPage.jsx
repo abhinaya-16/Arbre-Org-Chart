@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import OrgChartComponent from "../components/org-chart";
+import './OrgChartPage.css'
 
 function OrgChartPage() {
   const [employees, setEmployees] = useState([]);
@@ -11,9 +12,9 @@ function OrgChartPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Organization Chart</h1>
-      <OrgChartComponent data={employees} />
+    <div class="full-page">
+        <h2>Org-Chart</h2>
+        <OrgChartComponent data={employees} />
     </div>
   );
 }
