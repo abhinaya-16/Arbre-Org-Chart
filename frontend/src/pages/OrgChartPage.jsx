@@ -15,7 +15,7 @@ function OrgChartPage() {
 
   return (
     <div className="full-page">
-        {/* <Navbar /> */}
+        <Navbar />
         <OrgChartComponent className="org-chart" data={employees} />
     </div>
         
