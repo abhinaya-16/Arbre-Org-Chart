@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import OrgChartComponent from "../components/org-chart";
 import Navbar from "../components/navbar";
 import './OrgChartPage.css'
-import Avatar from "@mui/material/Avatar";
 
 function OrgChartPage() {
   const [employees, setEmployees] = useState([]);
