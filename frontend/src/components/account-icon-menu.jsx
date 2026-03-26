@@ -97,34 +97,32 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400 }}>
+        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400 , fontSize: 14, py: 0, px: 1.5}}>
           <IconButton
             sx={{
               '& svg': {
                   fontSize: '18px', 
-                  width: '25px',
-                  height: '25px',
+                  width: '20px',
+                  height: '20px',
                   position: 'relative',
                   top: '0px',    // Positive moves down, negative moves up
                   left: '0px',  // Positive moves right, negative moves left
               },
-              '& path': {
-                  strokeWidth: '1', // Default is usually 2. Lower = Thinner.
-              }
+              
             }}>
             <AvatarIcon2 />
           </IconButton>
           My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400 }}>
+        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
           <ListItemIcon>
             <IconButton
             sx={{
               '& svg': {
                   fontSize: '18px', 
-                  width: '25px',
-                  height: '25px',
+                  width: '20px',
+                  height: '20px',
                   position: 'relative',
                   top: '0px',    // Positive moves down, negative moves up
                   left: '0px',  // Positive moves right, negative moves left
@@ -135,14 +133,14 @@ export default function AccountMenu() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400 }}>
+        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
           <ListItemIcon>
             <IconButton
             sx={{
               '& svg': {
                   fontSize: '18px', 
-                  width: '25px',
-                  height: '25px',
+                  width: '20px',
+                  height: '20px',
                   position: 'relative',
                   top: '0px',    // Positive moves down, negative moves up
                   left: '0px',  // Positive moves right, negative moves left

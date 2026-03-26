@@ -19,7 +19,6 @@ can be used to reset the entire page
 }
 /* . before the class name is used to target the class while without . it targets the tag */
 body{
-  background-color: rgb(247, 134, 134);
   margin: 0; 
   padding: 0;
   display: block;

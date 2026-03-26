@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import AccountMenu from "./account-icon-menu";
 import AdjustDrawer from "../components/adjust-drawer";
 import SearchField from "../components/search-field";
+import UploadButton from "../components/upload-button";
 
 export default function SearchAppBar() {
   return (
@@ -17,7 +18,7 @@ export default function SearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' }, color: '#000', mr: 4, fontFamily: 'Inter', fontWeight: 400 }}
+            sx={{ display: { xs: 'none', sm: 'block' }, color: '#000', mr: 4, fontFamily: 'Inter', fontWeight: 400, fontSize: 18 }}
           >
             Org chart
           </Typography>
@@ -31,6 +32,7 @@ export default function SearchAppBar() {
             sx={{ height: 24, my: 'auto', mx: 0.5, borderWidth: 1.2, borderColor: 'rgba(0, 0, 0, 0.12)' }} 
           />
           <AccountMenu />
+          <UploadButton />
 
         </Toolbar>
       </AppBar>
