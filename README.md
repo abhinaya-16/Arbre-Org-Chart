@@ -44,7 +44,7 @@ cd GeniusLab-Org-chart
 
 1.  **Navigate** to the server directory:
     ```bash
-    cd server
+    cd backend
     ```
 2.  **Install dependencies**:
     ```bash
@@ -53,7 +53,7 @@ cd GeniusLab-Org-chart
 3.  **Prepare Data**: Ensure your employee data is formatted in `employees.xlsx` within the root server folder.
 4.  **Start the server**:
     ```bash
-    node index.js
+    node server.js
     ```
 
 ---
@@ -62,7 +62,7 @@ cd GeniusLab-Org-chart
 
 1.  **Navigate** to the client directory:
     ```bash
-    cd client
+    cd frontend
     ```
 2.  **Install dependencies**:
     ```bash
@@ -70,7 +70,7 @@ cd GeniusLab-Org-chart
     ```
 3.  **Start the React application**:
     ```bash
-    npm start
+    npm run dev
     ```
 
 ---
@@ -83,7 +83,9 @@ To populate the chart, ensure the `employees.xlsx` file contains the following c
 | :--- | :--- |
 | **ID** | Unique identifier for the employee. |
 | **ParentID** | The ID of the manager/supervisor (leave empty for the CEO/Root). |
-| **Name** | Employee full name. |
+| **First Name** | Employee first name. |
+| **Last Name** | Employee last name. |
+| **Department Name** | Employee department name. |
 | **Title** | Professional designation. |
 
 ---
