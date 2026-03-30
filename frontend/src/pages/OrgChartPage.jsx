@@ -15,7 +15,10 @@ function OrgChartPage() {
 
   return (
     <div className="full-page">
-        <Navbar chartInstance={chartInstance} />
+        <Navbar 
+          chartInstance={chartInstance} 
+          onDataUpload={setEmployees}
+        />
         <OrgChartComponent 
           className="org-chart" 
           data={employees} 

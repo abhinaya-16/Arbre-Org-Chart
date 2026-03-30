@@ -1,13 +1,15 @@
 const express = require("express");
 const cors = require("cors");
 const ExcelJS = require("exceljs");
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express();
 app.use(cors());
 
-async function readExcel() {
+async function processExcel(buffer) {
   const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile("./employees.xlsx");
+  await workbook.xlsx.load(buffer);
 
   const sheet = workbook.worksheets[0];
 
@@ -18,12 +20,9 @@ async function readExcel() {
   );
 
   const employees = [];
-
   sheet.eachRow((row, rowNumber) => {
     if (rowNumber === 1) return; // skip header
-
     const obj = {};
-
     headers.forEach((header, index) => {
       if (!header) return;
       obj[header] = row.getCell(index).value;
@@ -43,13 +42,16 @@ async function readExcel() {
   return employees;
 }
 
-app.get("/api/employees", async (req, res) => {
+app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
-    const employees = await readExcel();
+    if (!req.file) return res.status(400).send("No file uploaded.");
+    
+    const employees = await processExcel(req.file.buffer);
     res.json(employees);
-  } catch (error) {
-    console.error("Error reading Excel:", error);
-    res.status(500).json({ error: "Failed to read Excel file" });
+  } 
+  catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({ error: "Failed to process file" });
   }
 });
 

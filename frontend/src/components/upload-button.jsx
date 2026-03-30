@@ -14,7 +14,33 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function InputFileUpload() {
+export default function InputFileUpload({ onUploadSuccess }) {
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const newData = await response.json();
+        if (onUploadSuccess) onUploadSuccess(newData);
+      } 
+      else {
+        console.error("Upload failed");
+      }
+    } 
+    catch (error) {
+      console.error("Error connecting to server:", error);
+    }
+  };
+  
   return (
     <Button
       component="label"
@@ -43,8 +69,8 @@ export default function InputFileUpload() {
       Upload files
       <VisuallyHiddenInput
         type="file"
-        onChange={(event) => console.log(event.target.files)}
-        multiple
+        accept=".xlsx, .xls" // Restrict to Excel files
+        onChange={handleFileChange}
       />
     </Button>
   );

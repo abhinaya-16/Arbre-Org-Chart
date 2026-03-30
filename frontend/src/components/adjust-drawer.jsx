@@ -15,7 +15,7 @@ import StackIcon from '../assets/align-center-alt-svgrepo-com.svg?react';
 import UploadButton from './upload-button';
 import ExportPDFButton from "../components/export-pdf-button";
 
-export default function AdjustDrawer({ chartInstance }) {
+export default function AdjustDrawer({ chartInstance, onDataUpload }) {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -30,7 +30,10 @@ export default function AdjustDrawer({ chartInstance }) {
           sx={{ justifyContent: 'left', px: 0, py: 1 }} 
           onClick={(e) => e.stopPropagation()} // Prevents drawer from closing when clicking the button
         >
-          <UploadButton />
+          <UploadButton onUploadSuccess={(data) => {
+            onDataUpload(data);
+            setOpen(false); // Optionally close drawer after successful upload
+          }} />
         </ListItem>
         
         <ListItem 
