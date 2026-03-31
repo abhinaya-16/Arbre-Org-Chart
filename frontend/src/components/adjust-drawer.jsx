@@ -14,6 +14,10 @@ import IconButton from '@mui/material/IconButton';
 import StackIcon from '../assets/align-center-alt-svgrepo-com.svg?react';
 import UploadButton from './upload-button';
 import ExportPDFButton from "../components/export-pdf-button";
+import FullScreenButton from "./full-screen-button";
+import FitToScreenButton from "./fit-to-screen-button";
+import ExpandButton from "./expand-button";
+import CollapseButton from "./collapse-button";
 
 export default function AdjustDrawer({ chartInstance, onDataUpload }) {
   const [open, setOpen] = React.useState(false);
@@ -34,6 +38,7 @@ export default function AdjustDrawer({ chartInstance, onDataUpload }) {
       onClick={toggleDrawer(false)}
     >
       <List sx={{ pt: 8 }}>
+
         <ListItem 
           disablePadding
           sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
@@ -52,53 +57,34 @@ export default function AdjustDrawer({ chartInstance, onDataUpload }) {
         >
           <ExportPDFButton chartInstance={chartInstance} />
         </ListItem>
-        
-        {/* <Divider sx={{ mb: 1 }} /> */}
-        
-        {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={text} 
-                    slotProps={{ 
-                      primary: { 
-                        sx: { 
-                          fontFamily: 'Inter', 
-                          fontWeight: 400 
-                        } 
-                      } 
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton >
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary={text} 
-                    slotProps={{ 
-                      primary: { 
-                        sx: { 
-                          fontFamily: 'Inter', 
-                          fontWeight: 400 
-                        } 
-                      } 
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-        ))} */}
 
+        <ListItem 
+          disablePadding
+          sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
+        >
+          <FullScreenButton/>
+        </ListItem>
+
+        <ListItem 
+          disablePadding
+          sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
+        >
+          <FitToScreenButton/>
+        </ListItem>
+        
+        <ListItem 
+          disablePadding
+          sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
+        >
+          <ExpandButton/>
+        </ListItem>
+
+        <ListItem 
+          disablePadding
+          sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
+        >
+          <CollapseButton/>
+        </ListItem>
       </List>
     </Box>
   );
