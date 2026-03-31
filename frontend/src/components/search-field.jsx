@@ -63,9 +63,10 @@ export default function SearchField({ chartInstance, data }) {
         // 1. Clear previous highlights
         chartInstance.clearHighlighting();
         // 2. Set the new highlighted node
-        chartInstance.setHighlighted(employee.id).render();
+        chartInstance.setHighlighted(employee.id)
         // 3. Expand all parents and center the node
-        chartInstance.setUpToTheRootHighlighted(employee.id).render();
+        chartInstance.setUpToTheRootHighlighted(employee.id)
+        .render();
         setSearchQuery("");
       } 
       else {
