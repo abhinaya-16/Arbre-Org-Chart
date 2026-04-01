@@ -7,15 +7,21 @@
 can be used to reset the entire page
 */
 .full-page {
+  display: flex;          /* Add this */
+  flex-direction: column; /* Add this */
   position: relative; 
   width: 100%;
   height: 100vh;
   overflow: hidden;
   box-sizing: border-box;
 }
+#chart {
+  flex-grow: 1; 
+  width: 100%;
+}
 .org-chart {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 /* . before the class name is used to target the class while without . it targets the tag */
 body{

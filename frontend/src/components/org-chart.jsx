@@ -8,11 +8,15 @@ function OrgChartComponent({ data, setChartInstance }) {
   useEffect(() => {
     if (!data || data.length === 0) return;
     
+    const container = document.getElementById("chart");
+    const containerHeight = container ? container.offsetHeight : 565;
+
     if (!chartRef.current) {
       chartRef.current = new OrgChart()
         .container("#chart")
         .nodeWidth(() => 260)
         .nodeHeight(() => 140)
+        .svgHeight(565)
         .childrenMargin(() => 60) 
 
         // 1. Fit the highlight stroke to the card dimensions
@@ -116,8 +120,17 @@ function OrgChartComponent({ data, setChartInstance }) {
           </div>
         `;
       })
+      .svgHeight(containerHeight)
       .render()
       .fit()
+
+      const handleResize = () => {
+      const newHeight = document.getElementById("chart").offsetHeight;
+      chartRef.current.svgHeight(newHeight).render().fit();
+      };
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
 
   }, [data]);
 
@@ -125,9 +138,9 @@ function OrgChartComponent({ data, setChartInstance }) {
   <div
       id="chart"
       style={{
-        width: "100vw",
-        height: "100vh",
-        overflow: "hidden", // D3-org-chart handles its own internal panning/scrolling
+        width: "100%",
+        height: "100%",
+        overflow: "hidden", // D3-org-chart handles its own internal panning/scrolling        
       }}
     ></div>
   );
