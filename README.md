@@ -2,7 +2,7 @@
 
 A dynamic, full-stack data visualization platform that transforms complex organizational hierarchies from static spreadsheets into interactive, searchable, and exportable organizational charts.
 
-![Demo](./frontend/src/assets/Org-chart-Demo.gif)
+![Demo](./frontend/src/assets/demo_v2.gif)
 
 ## Purpose
 In many enterprise environments, organizational data remains trapped in flat Excel files, making it difficult to visualize reporting lines or departmental structures. **GeniusLab Org-Chart** bridges this gap by providing a seamless interface to ingest, process, and render hierarchical data. 
