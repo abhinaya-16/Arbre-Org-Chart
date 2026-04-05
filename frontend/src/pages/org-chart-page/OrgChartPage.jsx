@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import OrgChartComponent from "../components/org-chart";
-import Navbar from "../components/navbar";
+import OrgChartComponent from "./components/org-chart";
+import Navbar from "./components/navbar";
 import './OrgChartPage.css'
 
 function OrgChartPage() {

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/Sign-in/SignIn";
-import OrgChartPage from "./pages/OrgChartPage";
+import OrgChartPage from "./pages/org-chart-page/OrgChartPage";
 
 function App() {
   return (
