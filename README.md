@@ -1,4 +1,4 @@
-# GeniusLab Org-Chart
+# Arbre-Org-Chart
 
 A dynamic, full-stack data visualization platform that transforms complex organizational hierarchies from static spreadsheets into interactive, searchable, and exportable organizational charts.
 
