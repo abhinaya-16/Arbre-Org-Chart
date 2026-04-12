@@ -15,20 +15,21 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import { GoogleIcon } from './components/CustomIcons';
+import { GoogleIcon, MicrosoftIcon } from './components/CustomIcons';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignSelf: 'center',
   width: '100%',
-  padding: theme.spacing(3),
-  gap: theme.spacing(1.5),
+  padding: theme.spacing(2),
+  gap: theme.spacing(1),
   margin: 'auto',
   boxShadow:
     'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
   [theme.breakpoints.up('sm')]: {
     width: '380px',
+    padding: theme.spacing(3),
   },
   ...theme.applyStyles('dark', {
     boxShadow:
@@ -38,8 +39,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-  minHeight: '100%',
+  minHeight: '100dvh',
   padding: theme.spacing(2),
+  overflowY: 'auto',
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
   },
@@ -134,11 +136,12 @@ export default function SignUp(props) {
           <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
+            sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
           >
             <FormControl>
               <FormLabel htmlFor="name">Full name</FormLabel>
               <TextField
+                size="small"
                 autoComplete="name"
                 name="name"
                 required
@@ -153,6 +156,7 @@ export default function SignUp(props) {
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <TextField
+                size="small"
                 required
                 fullWidth
                 id="email"
@@ -168,6 +172,7 @@ export default function SignUp(props) {
             <FormControl>
               <FormLabel htmlFor="password">Password</FormLabel>
               <TextField
+                size="small"
                 required
                 fullWidth
                 name="password"
@@ -197,7 +202,7 @@ export default function SignUp(props) {
           <Divider>
             <Typography sx={{ color: 'text.secondary' }}>or</Typography>
           </Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             <Button
               fullWidth
               variant="outlined"
@@ -206,14 +211,15 @@ export default function SignUp(props) {
             >
               Sign up with Google
             </Button>
-            {/* <Button
+            <Button
               fullWidth
               variant="outlined"
-              onClick={() => alert('Sign up with Facebook')}
-              startIcon={<FacebookIcon />}
+              onClick={() => alert('Sign up with Microsoft')}
+              startIcon={<MicrosoftIcon />}
             >
-              Sign up with Facebook
-            </Button> */}
+              Sign up with Microsoft
+            </Button>
+
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link

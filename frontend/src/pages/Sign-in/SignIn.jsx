@@ -15,7 +15,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
 import AppTheme from '../shared-theme/AppTheme';
-import { GoogleIcon} from './components/CustomIcons';
+import { GoogleIcon, MicrosoftIcon} from './components/CustomIcons';
 import { useNavigate } from "react-router-dom";
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -202,7 +202,7 @@ export default function SignIn(props) {
             </Link>
           </Box>
           <Divider>or</Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             <Button
               fullWidth
               variant="outlined"
@@ -211,14 +211,14 @@ export default function SignIn(props) {
             >
               Sign in with Google
             </Button>
-            {/* <Button
+            <Button
               fullWidth
               variant="outlined"
-              onClick={() => alert('Sign in with Facebook')}
-              startIcon={<FacebookIcon />}
+              onClick={() => alert('Sign in with Microsoft')}
+              startIcon={<MicrosoftIcon />}
             >
-              Sign in with Facebook
-            </Button> */}
+              Sign in with Microsoft
+            </Button> 
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link
