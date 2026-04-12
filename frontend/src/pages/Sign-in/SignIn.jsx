@@ -17,6 +17,7 @@ import ForgotPassword from './components/ForgotPassword';
 import AppTheme from '../shared-theme/AppTheme';
 import { GoogleIcon, MicrosoftIcon} from './components/CustomIcons';
 import { useNavigate } from "react-router-dom";
+import { Router, Link as RouterLink} from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -38,9 +39,10 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-  minHeight: '100%',
+  //height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
+  minHeight: '100dvh',
   padding: theme.spacing(2),
+  overflowY: 'auto',
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
   },
@@ -71,7 +73,9 @@ export default function SignIn(props) {
   const handleSignIn = () => {
     navigate("/org-chart");
   };
-
+  const handleSignUp = () => {
+    navigate("/sign-up");
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -222,8 +226,10 @@ export default function SignIn(props) {
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                component={RouterLink}
+                to="/sign-up"
                 variant="body2"
+                onClick={handleSignUp}
                 sx={{ alignSelf: 'center' }}
               >
                 Sign up

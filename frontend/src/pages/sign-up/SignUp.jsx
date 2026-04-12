@@ -14,6 +14,7 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
+import { Router, Link as RouterLink} from 'react-router-dom';
 // import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import { GoogleIcon, MicrosoftIcon } from './components/CustomIcons';
 
@@ -38,7 +39,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
+  // height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100dvh',
   padding: theme.spacing(2),
   overflowY: 'auto',
@@ -223,7 +224,8 @@ export default function SignUp(props) {
             <Typography sx={{ textAlign: 'center' }}>
               Already have an account?{' '}
               <Link
-                href="/material-ui/getting-started/templates/sign-in/"
+                component={RouterLink}
+                to="/sign-in"
                 variant="body2"
                 sx={{ alignSelf: 'center' }}
               >
