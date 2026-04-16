@@ -14,16 +14,28 @@ import AvatarIcon from '../assets/user-svgrepo-com.svg?react';
 import LogoutIcon from '../assets/arrow-right-from-bracket-svgrepo-com.svg?react';
 import SettingsIcon from '../assets/sun-alt-svgrepo-com.svg?react';
 import AvatarIcon2 from '../assets/circle-user-svgrepo-com.svg?react';
+import { useMsal } from "@azure/msal-react";
 
 export default function AccountMenu() {
+  const { instance } = useMsal();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    handleClose(); // Close the menu first
+    instance.logoutRedirect({
+      postLogoutRedirectUri: "/", // Where to go after logout
+    });
+  };
+
   return (
     <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -138,7 +150,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
+        <MenuItem onClick={handleLogout} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
           <ListItemIcon>
             <IconButton
             sx={{
