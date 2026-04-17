@@ -16,7 +16,10 @@ Built with a focus on performance and user experience, this tool allows HR profe
 * **Frontend:** React, D3.js (via `d3-org-chart`) for high-performance SVG rendering.
 * **Backend:** Node.js, Express.js.
 * **Data Processing:** ExcelJS for server-side parsing of `.xlsx` files.
-* **Authentication & Identity:** * Microsoft Entra External ID (Single-tenant configuration) * MSAL.js for secure OAuth 2.0 / OpenID Connect flows * Token-based authentication with protected routes and session management
+* **Authentication & Identity:** 
+    - Microsoft Entra External ID (Single-tenant configuration) 
+    - MSAL.js for secure OAuth 2.0 / OpenID Connect flows 
+    - Token-based authentication with protected routes and session management
 * **Cloud & Identity Protocols:** OAuth 2.0, OpenID Connect (OIDC)
 * **Styling:** Custom CSS with a focus on clean, modern UI and intuitive navigation.
 ---
