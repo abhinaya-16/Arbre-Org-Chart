@@ -1,7 +1,8 @@
 import { EmailSignup } from "./components/EmailSignup";
 import { FeatureCard } from "./components/FeatureCard";
 import Logo from "./assets/ArbreLogo.svg";
-import { useMsal } from "@azure/msal-react";
+import { useMsal, useIsAuthenticated } from "@azure/msal-react";
+import { Navigate } from "react-router-dom";
 // import "./styles/tailwind.css";
 // import * as React from 'react';
 // import { useNavigate } from "react-router-dom";
@@ -10,7 +11,16 @@ import { useMsal } from "@azure/msal-react";
 import { Network, Search, Download, Zap, BarChart3, FileSpreadsheet,} from "lucide-react";
 
 export default function App() {
-  const { instance } = useMsal();
+  const { instance, inProgress } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
+
+  if (inProgress !== "none") {
+    return <div>Loading...</div>;
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/org-chart" replace />;
+  }
 
   const handleSignIn = () => {
     instance.loginRedirect({
