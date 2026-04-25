@@ -6,6 +6,14 @@ import {
   FileText,
   CreditCard,
   Settings,
+  FolderTreeIcon,
+  TreePalm,
+  TreesIcon,
+  LucideTentTree,
+  GitBranch,
+  GitBranchIcon,
+  Workflow,
+  DatabaseIcon,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -18,7 +26,7 @@ export function Sidebar({
   onItemClick,
 }: SidebarProps) {
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, },
+    { id: "chart-view", label: "Chart View", icon: Workflow, },
     { id: "file-directory", label: "File Directory", icon: FileText,},
     { id: "settings", label: "Settings", icon: Settings },
   ];
