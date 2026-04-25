@@ -101,12 +101,12 @@ export function FileTable({
                         >
                           <CheckIcon className="w-4 h-4 mr-2" /> Select
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onViewFile(file)} className="cursor-pointer">
+                        {/* <DropdownMenuItem onClick={() => onViewFile(file)} className="cursor-pointer">
                           <Eye className="w-4 h-4 mr-2" /> View Details
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => onEditFile(file)} className="cursor-pointer">
                           <FileEdit className="w-4 h-4 mr-2" /> Edit File
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuItem 
                           className="text-red-600 focus:text-red-600 cursor-pointer" 
                           onClick={() => {

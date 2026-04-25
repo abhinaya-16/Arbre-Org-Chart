@@ -18,7 +18,6 @@ function OrgChartComponent({ data, setChartInstance }) {
         .nodeHeight(() => 140)
         .svgHeight(565)
         .childrenMargin(() => 60) 
-
         // 1. Fit the highlight stroke to the card dimensions
         .nodeUpdate(function (d) {
           const isHighlighted = d.data._highlighted || d.data._upToTheRootHighlighted;
