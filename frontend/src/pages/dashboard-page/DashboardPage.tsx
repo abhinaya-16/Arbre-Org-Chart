@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Sidebar } from './components/SideBar';
-import { UserManagement } from './components/UserManagement';
+import { FileManagement } from './components/FileManagement';
 import { Toaster } from './components/ui/sonner';
 
 export default function App() {
-  const [activeMenuItem, setActiveMenuItem] = useState('user-management');
+  const [activeMenuItem, setActiveMenuItem] = useState('file-management');
 
   const handleMenuItemClick = (item: string) => {
     setActiveMenuItem(item);
@@ -12,8 +12,8 @@ export default function App() {
 
   const renderContent = () => {
     switch (activeMenuItem) {
-      case 'user-management':
-        return <UserManagement />;
+      case 'file-management':
+        return <FileManagement />;
       case 'dashboard':
         return (
           <div className="flex-1 bg-gray-50 p-6">
@@ -33,7 +33,7 @@ export default function App() {
           </div>
         );
       default:
-        return <UserManagement />;
+        return <FileManagement />;
     }
   };
 
