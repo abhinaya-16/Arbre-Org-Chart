@@ -17,13 +17,13 @@ import {
   DialogTitle,
 } from './ui/dialog';
 
-interface AddUserModalProps {
+interface AddFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddUser: (user: any) => void;
+  onAddFile: (file: any) => void;
 }
 
-export function AddUserModal({ isOpen, onClose, onAddUser }: AddUserModalProps) {
+export function AddFileModal({ isOpen, onClose, onAddFile }: AddFileModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,12 +42,12 @@ export function AddUserModal({ isOpen, onClose, onAddUser }: AddUserModalProps) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.name && formData.email && formData.role) {
-      const newUser = {
+      const newfile = {
         id: Date.now().toString(),
         ...formData,
         lastLogin: 'Never'
       };
-      onAddUser(newUser);
+      onAddFile(newfile);
       setFormData({
         name: '',
         email: '',
@@ -72,9 +72,9 @@ export function AddUserModal({ isOpen, onClose, onAddUser }: AddUserModalProps) 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-white">
         <DialogHeader>
-          <DialogTitle>Add New User</DialogTitle>
+          <DialogTitle>Add New File</DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -145,7 +145,7 @@ export function AddUserModal({ isOpen, onClose, onAddUser }: AddUserModalProps) 
               Cancel
             </Button>
             <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white">
-              Add User
+              Add File
             </Button>
           </div>
         </form>

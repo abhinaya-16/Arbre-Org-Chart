@@ -3,7 +3,7 @@ import { Search, Plus, EyeIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FileTable } from "./FileTable";
-import { AddUserModal } from "./AddUserModal"; 
+import { AddFileModal } from "./AddFileModal"; 
 import { toast } from "sonner";
 //import OrgChartPage from "../../org-chart-page/OrgChartPage";
 import { useNavigate } from "react-router-dom";
@@ -129,10 +129,10 @@ export function FileManagement() {
         </div>
       </div>
 
-      <AddUserModal
+      <AddFileModal
         isOpen={isAddModalOpen}
         onClose={handleCloseModal}
-        onAddUser={handleAddFile}
+        onAddFile={handleAddFile}
       />
     </div>
   );
