@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Search, Plus, EyeIcon } from "lucide-react";
+import { Search, EyeIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { FileTable } from "./FileTable";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { UploadFileButton } from "./UploadFileButton";
 
 interface FileItem {
   id: string;
@@ -56,12 +56,11 @@ export function FileManagement() {
               Manage your excel files to generate their org-charts
             </p>
           </div>
-          <Button 
-            className="cursor-pointer font-['Inter'] bg-linear-to-r from-blue-600 to-purple-600 hover:shadow-lg text-white transition-all"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Upload File
-          </Button>
+          <UploadFileButton
+            onUploadSuccess={(newFile) => {
+              setFiles((prev) => [newFile, ...prev]);
+            }}
+          />
         </div>
 
         <div className="bg-white rounded-lg border border-gray-200 p-6 flex-1 flex flex-col shadow-sm">
