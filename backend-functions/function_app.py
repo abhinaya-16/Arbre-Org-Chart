@@ -4,6 +4,7 @@ import os
 import uuid
 import pyodbc
 import pandas as pd
+import io
 from azure.storage.blob import BlobServiceClient, BlobClient
 
 app = func.FunctionApp()
@@ -99,27 +100,43 @@ def get_files(req: func.HttpRequest) -> func.HttpResponse:
 def get_employees(req: func.HttpRequest) -> func.HttpResponse:
     try:
         file_url = req.params.get("fileUrl")
-
         if not file_url:
             return func.HttpResponse("Missing fileUrl", status_code=400)
 
-        blob = BlobClient.from_blob_url(file_url)
-        stream = blob.download_blob().readall()
+        blob_service = BlobServiceClient.from_connection_string(os.environ["BLOB_CONN"])
 
-        df = pd.read_excel(stream)
+        # More robust URL parsing
+        from urllib.parse import urlparse
+        path = urlparse(file_url).path.lstrip('/')
+        parts = path.split('/')
+        container_name = parts[0]
+        blob_name = "/".join(parts[1:])
+
+        blob_client = blob_service.get_blob_client(container=container_name, blob=blob_name)
+        
+        stream = blob_client.download_blob().readall()
+        excel_file = io.BytesIO(stream)
+        
+        # Standardize column names to lowercase to avoid KeyErrors
+        df = pd.read_excel(excel_file, engine="openpyxl")
+        df.columns = [str(col).lower().strip() for col in df.columns]
 
         employees = []
-
         for _, row in df.iterrows():
+            # Using .get() or checking existence to prevent crashes if a column is missing
             employees.append({
-                "id": str(row["id"]),
-                "parentId": str(row["parentid"]) if not pd.isna(row["parentid"]) else None,
-                "name": f"{row['first_name']} {row['last_name']}",
-                "title": row["title"],
-                "department": row["department_name"]
+                "id": str(row.get("id", "")),
+                "parentId": str(row["parentid"]) if pd.notna(row.get("parentid")) else None,
+                "name": f"{row.get('first_name', '')} {row.get('last_name', '')}".strip(),
+                "title": row.get("title", "N/A"),
+                "department": row.get("department_name", "N/A")
             })
 
-        return func.HttpResponse(json.dumps(employees), mimetype="application/json")
+        return func.HttpResponse(
+            json.dumps(employees), 
+            mimetype="application/json", 
+            status_code=200
+        )
 
     except Exception as e:
-        return func.HttpResponse(str(e), status_code=500)
+        return func.HttpResponse(f"Error processing Excel: {str(e)}", status_code=500)
