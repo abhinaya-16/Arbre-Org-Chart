@@ -29,6 +29,7 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
         # 2. Capture the actual filename
         actual_filename = file.filename  # This gets 'Abhinaya_employees.xlsx'
         file_bytes = file.read()
+        file_size = len(file_bytes)
 
         file_id = str(uuid.uuid4())
         blob_name = f"{user_id}/{file_id}.xlsx"
@@ -45,14 +46,14 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
         blob_client.upload_blob(file_bytes, overwrite=True)
         blob_url = blob_client.url
 
-        # 3. Save the actual_filename to the database
+        # 3. Save the actual_filename and file_size to the database
         conn = pyodbc.connect(os.environ["SQL_CONN"])
         cursor = conn.cursor()
 
         cursor.execute("""
-            INSERT INTO Files (id, user_id, filename, blob_url)
-            VALUES (?, ?, ?, ?)
-        """, file_id, user_id, actual_filename, blob_url)
+            INSERT INTO Files (id, user_id, filename, blob_url, file_size)
+            VALUES (?, ?, ?, ?, ?)
+        """, file_id, user_id, actual_filename, blob_url, file_size)
 
         conn.commit()
 
@@ -74,7 +75,7 @@ def get_files(req: func.HttpRequest) -> func.HttpResponse:
         cursor = conn.cursor()
 
         cursor.execute("""
-            SELECT id, filename, blob_url, upload_time
+            SELECT id, filename, blob_url, upload_time, file_size
             FROM Files
             WHERE user_id = ?
             ORDER BY upload_time DESC
@@ -82,12 +83,19 @@ def get_files(req: func.HttpRequest) -> func.HttpResponse:
 
         rows = cursor.fetchall()
 
+        def format_size(bytes):
+            for unit in ['B', 'KB', 'MB', 'GB']:
+                if bytes < 1024:
+                    return f"{bytes:.1f} {unit}"
+                bytes /= 1024
+
         result = [
             {
                 "id": str(r[0]),
                 "filename": r[1],
                 "url": r[2],
-                "time": str(r[3])
+                "time": r[3].isoformat(),
+                "size": format_size(r[4]) if r[4] else "0 B"
             }
             for r in rows
         ]
