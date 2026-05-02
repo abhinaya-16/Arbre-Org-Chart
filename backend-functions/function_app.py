@@ -10,20 +10,25 @@ from azure.storage.blob import BlobServiceClient, BlobClient
 app = func.FunctionApp()
 
 # -------------------------------
-# Upload File
+# Upload File (FIXED)
 # -------------------------------
 @app.route(route="UploadFile", methods=["POST"])
 def upload_file(req: func.HttpRequest) -> func.HttpResponse:
     try:
         user_id = req.headers.get("x-user-id")
-
         if not user_id:
             return func.HttpResponse("Missing user ID", status_code=400)
 
-        file_bytes = req.get_body()
+        # 1. Get the file from the form-data
+        # Postman sends files in the 'files' dictionary of the request
+        file = req.files.get('file')
+        
+        if not file:
+            return func.HttpResponse("No file found in request (ensure key is 'file')", status_code=400)
 
-        if not file_bytes:
-            return func.HttpResponse("No file received", status_code=400)
+        # 2. Capture the actual filename
+        actual_filename = file.filename  # This gets 'Abhinaya_employees.xlsx'
+        file_bytes = file.read()
 
         file_id = str(uuid.uuid4())
         blob_name = f"{user_id}/{file_id}.xlsx"
@@ -38,23 +43,23 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
         )
 
         blob_client.upload_blob(file_bytes, overwrite=True)
-
         blob_url = blob_client.url
 
+        # 3. Save the actual_filename to the database
         conn = pyodbc.connect(os.environ["SQL_CONN"])
         cursor = conn.cursor()
 
         cursor.execute("""
             INSERT INTO Files (id, user_id, filename, blob_url)
             VALUES (?, ?, ?, ?)
-        """, file_id, user_id, "uploaded.xlsx", blob_url)
+        """, file_id, user_id, actual_filename, blob_url)
 
         conn.commit()
 
         return func.HttpResponse(blob_url, status_code=200)
 
     except Exception as e:
-        return func.HttpResponse(str(e), status_code=500)
+        return func.HttpResponse(f"Upload failed: {str(e)}", status_code=500)
 
 
 # -------------------------------
