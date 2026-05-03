@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, EyeIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { FileTable } from "./FileTable";
@@ -11,33 +11,43 @@ interface FileItem {
   filename: string;
   size: string;
   time: string;
+  url: string;
 }
 
-const initialFiles: FileItem[] = [
-  { id: "1", filename: "Acme_Employees.xlsx", size: "2.4 MB", time: "Apr 25, 2026 10:12 AM" },
-  { id: "2", filename: "TechNova_Org.xlsx", size: "1.8 MB", time: "Apr 25, 2026 09:47 AM" },
-  { id: "3", filename: "BrightPath_Team.xlsx", size: "3.1 MB", time: "Apr 24, 2026 04:22 PM" },
-  { id: "4", filename: "Zenith_Staff.xlsx", size: "2.9 MB", time: "Apr 24, 2026 01:15 PM" },
-  { id: "5", filename: "BlueWave_Hierarchy.xlsx", size: "1.6 MB", time: "Apr 23, 2026 11:03 AM" },
-  { id: "6", filename: "Acme_Final.xlsx", size: "2.7 MB", time: "Apr 23, 2026 05:40 PM" },
-  { id: "7", filename: "TechNova_New.xlsx", size: "1.9 MB", time: "Apr 22, 2026 08:55 AM" },
-  { id: "8", filename: "BrightPath_Update.xlsx", size: "3.3 MB", time: "Apr 21, 2026 06:18 PM" },
-  { id: "9", filename: "Zenith_Latest.xlsx", size: "2.5 MB", time: "Apr 21, 2026 02:09 PM" },
-  { id: "10", filename: "BlueWave_FINAL.xlsx", size: "1.7 MB", time: "Apr 20, 2026 12:33 PM" },
-];
+// const initialFiles: FileItem[] = [
+//   { id: "1", filename: "Acme_Employees.xlsx", size: "2.4 MB", time: "Apr 25, 2026 10:12 AM" },
+//   { id: "2", filename: "TechNova_Org.xlsx", size: "1.8 MB", time: "Apr 25, 2026 09:47 AM" },
+//   { id: "3", filename: "BrightPath_Team.xlsx", size: "3.1 MB", time: "Apr 24, 2026 04:22 PM" },
+//   { id: "4", filename: "Zenith_Staff.xlsx", size: "2.9 MB", time: "Apr 24, 2026 01:15 PM" },
+//   { id: "5", filename: "BlueWave_Hierarchy.xlsx", size: "1.6 MB", time: "Apr 23, 2026 11:03 AM" },
+//   { id: "6", filename: "Acme_Final.xlsx", size: "2.7 MB", time: "Apr 23, 2026 05:40 PM" },
+//   { id: "7", filename: "TechNova_New.xlsx", size: "1.9 MB", time: "Apr 22, 2026 08:55 AM" },
+//   { id: "8", filename: "BrightPath_Update.xlsx", size: "3.3 MB", time: "Apr 21, 2026 06:18 PM" },
+//   { id: "9", filename: "Zenith_Latest.xlsx", size: "2.5 MB", time: "Apr 21, 2026 02:09 PM" },
+//   { id: "10", filename: "BlueWave_FINAL.xlsx", size: "1.7 MB", time: "Apr 20, 2026 12:33 PM" },
+// ];
+
 
 export function FileManagement() {
   const navigate = useNavigate();
-  const [files, setFiles] = useState<FileItem[]>(initialFiles);
-  const [selectedFileId, setSelectedFileId] = useState<string | null>("1");
+  // const [files, setFiles] = useState<FileItem[]>(initialFiles);
+  const [files, setFiles] = useState<FileItem[]>([]);
+  const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSelectFile = (id: string) => {
-    setSelectedFileId(id);
+  useEffect(() => {
+    fetch("http://localhost:5000/api/files")
+      .then(res => res.json())
+      .then(data => setFiles(data))
+      .catch(() => toast.error("Failed to load files"));
+  }, []);
+
+  const handleSelectFile = (file: FileItem) => {
+    setSelectedFile(file);
   };
 
   const handleDeleteFile = (fileId: string) => {
-    if (selectedFileId === fileId) setSelectedFileId(null);
+    if (selectedFile && selectedFile.id === fileId) setSelectedFile(null);
     setFiles((prev) => prev.filter((f) => f.id !== fileId));
     toast.success(`File deleted successfully.`);
   };
@@ -57,8 +67,10 @@ export function FileManagement() {
             </p>
           </div>
           <UploadFileButton
-            onUploadSuccess={(newFile) => {
-              setFiles((prev) => [newFile, ...prev]);
+            onUploadSuccess={async () => {
+              const res = await fetch("http://localhost:5000/api/files");
+              const data = await res.json();
+              setFiles(data);
             }}
           />
         </div>
@@ -73,13 +85,21 @@ export function FileManagement() {
             </div>
             <Button 
               // onClick={() => {
-              //   if (selectedFileId) {
+              //   if (selectedFile) {
               //     navigate("/org-chart");
               //   } else {
               //     toast.error("Please select a file first");
               //   }
               // }}
-              onClick={() => {navigate("/org-chart");}}
+              onClick={() => {
+                if (selectedFile) {
+                  navigate("/org-chart", {
+                    state: { fileUrl: selectedFile.url }
+                  });
+                } else {
+                  toast.error("Please select a file first");
+                }
+              }}
               className="cursor-pointer font-['Inter'] bg-white border border-gray-200 duration-200 hover:shadow-[0px_4px_10px_rgba(0,0,0,0.10)] text-black transition-all"
             >
               <EyeIcon className="w-4 h-4 mr-2" />
@@ -103,7 +123,7 @@ export function FileManagement() {
           <div className="flex-1 overflow-hidden">
             <FileTable
               fileItems={filteredFiles}
-              selectedFileId={selectedFileId}
+              selectedFile={selectedFile}
               onSelectFile={handleSelectFile}
               onDeleteFile={handleDeleteFile}
             />

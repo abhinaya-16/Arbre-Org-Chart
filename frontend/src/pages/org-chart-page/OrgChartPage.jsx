@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import OrgChartComponent from "./components/org-chart";
 import Navbar from "./components/navbar";
 import './OrgChartPage.css'
 
 function OrgChartPage() {
+  const location = useLocation();
+  const fileUrl = location.state?.fileUrl;
   const [employees, setEmployees] = useState([]);
   const [chartInstance, setChartInstance] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/employees")
+    if (!fileUrl) return;
+
+    fetch(`http://localhost:5000/api/employees?fileUrl=${encodeURIComponent(fileUrl)}`)
       .then(res => res.json())
-      .then(data => setEmployees(data));
-  }, []);
+      .then(data => setEmployees(data))
+      .catch(() => console.error("Failed to fetch employees"));
+  }, [fileUrl]);
 
   return (
     <div className="full-page">

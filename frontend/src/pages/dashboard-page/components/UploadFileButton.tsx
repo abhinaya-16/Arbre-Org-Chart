@@ -4,12 +4,7 @@ import { Button } from "./ui/button";
 import { toast } from "sonner";
 
 interface UploadFileButtonProps {
-  onUploadSuccess?: (file: {
-    id: string;
-    filename: string;
-    size: string;
-    time: string;
-  }) => void;
+  onUploadSuccess?: () => void;
 }
 
 export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
@@ -30,30 +25,30 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
     const formData = new FormData();
     formData.append("file", file);
 
-    const now = new Date();
+    // const now = new Date();
 
-    const formattedTime = `${now.toLocaleString("en-US", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-        })} ${now.toLocaleString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-    })}`;
+    // const formattedTime = `${now.toLocaleString("en-US", {
+    //     month: "short",
+    //     day: "2-digit",
+    //     year: "numeric",
+    //     })} ${now.toLocaleString("en-US", {
+    //     hour: "2-digit",
+    //     minute: "2-digit",
+    //     hour12: true,
+    // })}`;
 
-    const formatFileSize = (bytes: number) => {
-        const kb = bytes / 1024;
-        const mb = bytes / (1024 * 1024);
+    // const formatFileSize = (bytes: number) => {
+    //     const kb = bytes / 1024;
+    //     const mb = bytes / (1024 * 1024);
 
-        const format = (num: number) =>
-            num % 1 === 0 ? num.toString() : num.toFixed(1);
+    //     const format = (num: number) =>
+    //         num % 1 === 0 ? num.toString() : num.toFixed(1);
 
-        if (bytes < 1024 * 1024) {
-            return `${format(kb)} KB`;
-        }
-        return `${format(mb)} MB`;
-    };
+    //     if (bytes < 1024 * 1024) {
+    //         return `${format(kb)} KB`;
+    //     }
+    //     return `${format(mb)} MB`;
+    // };
 
     try {
       const response = await fetch("http://localhost:5000/api/upload", {
@@ -62,19 +57,10 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
       });
 
       if (response.ok) {
-        await response.json();
-
-        const newFile = {
-          id: Date.now().toString(),
-          filename: file.name,
-          size: formatFileSize(file.size),
-          time: formattedTime,
-        };
-
         toast.success("File uploaded successfully");
 
         if (onUploadSuccess) {
-          onUploadSuccess(newFile);
+          onUploadSuccess(); // 🔥 no fake data anymore
         }
       } else {
         toast.error("Upload failed");

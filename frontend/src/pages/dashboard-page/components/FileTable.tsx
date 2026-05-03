@@ -8,17 +8,32 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
+const formatTime = (iso: string) => {
+  const date = new Date(iso);
+
+  return `${date.toLocaleString("en-US", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  })} ${date.toLocaleString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  })}`;
+};
+
 interface FileItem {
   id: string;
   filename: string;
   size: string;
   time: string;
+  url: string;
 }
 
 interface FileTableProps {
   fileItems: FileItem[];
-  selectedFileId: string | null;
-  onSelectFile: (id: string) => void;
+  selectedFile: FileItem | null;
+  onSelectFile: (file: FileItem) => void;
   // onEditFile: (file: FileItem) => void;
   // onViewFile: (file: FileItem) => void;
   onDeleteFile: (fileId: string) => void;
@@ -26,7 +41,7 @@ interface FileTableProps {
 
 export function FileTable({
   fileItems,
-  selectedFileId,
+  selectedFile,
   onSelectFile,
   onDeleteFile,
 }: FileTableProps) {
@@ -55,7 +70,7 @@ export function FileTable({
           </thead>
           <tbody className="divide-y divide-gray-200">
             {fileItems.map((file) => {
-              const isSelected = selectedFileId === file.id;
+              const isSelected = selectedFile?.id === file.id;
               
               return (
                 <tr>
@@ -77,7 +92,7 @@ export function FileTable({
                     {file.size}
                   </td>
                   <td className="w-px whitespace-nowrap py-3 px-4 text-sm text-gray-500 font-['Inter']">
-                    {file.time}
+                    {formatTime(file.time)}
                   </td>
                   <td 
                     className="w-px whitespace-nowrap py-3 px-7 text-left"
@@ -92,7 +107,7 @@ export function FileTable({
                       <DropdownMenuContent align="end" className="w-40 font-['Inter'] bg-white border border-gray-200 rounded-md shadow-lg">
                         <DropdownMenuItem 
                           key={file.id} 
-                          onClick={() => onSelectFile(file.id)}
+                          onClick={() => onSelectFile(file)}
                           className={`hover:bg-gray-50 transition-colors cursor-pointer group ${
                             isSelected ? 'bg-blue-50/40' : ''
                           }`}
