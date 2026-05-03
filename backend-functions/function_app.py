@@ -118,7 +118,7 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
 
         blob_service = BlobServiceClient.from_connection_string(os.environ["BLOB_CONN"])
 
-        # More robust URL parsing
+        # URL parsing to get container and blob names
         from urllib.parse import urlparse
         path = urlparse(file_url).path.lstrip('/')
         parts = path.split('/')
@@ -130,16 +130,37 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
         stream = blob_client.download_blob().readall()
         excel_file = io.BytesIO(stream)
         
-        # Standardize column names to lowercase to avoid KeyErrors
+        # Read Excel and standardize column names
         df = pd.read_excel(excel_file, engine="openpyxl")
         df.columns = [str(col).lower().strip() for col in df.columns]
 
+        # Helper function to fix Excel numeric IDs being read as floats (e.g., 100.0 -> "100")
+        def clean_id(val):
+            if pd.isna(val) or str(val).lower() == 'nan' or str(val).strip() == '':
+                return None
+            try:
+                # If it's a float or int, convert to int then string
+                if isinstance(val, (float, int)):
+                    return str(int(val))
+                # If it's a string that looks like "100.0", cast to float then int
+                float_val = float(val)
+                return str(int(float_val))
+            except:
+                # Fallback for non-numeric strings
+                return str(val).strip()
+
         employees = []
         for _, row in df.iterrows():
-            # Using .get() or checking existence to prevent crashes if a column is missing
+            emp_id = clean_id(row.get("id"))
+            parent_id = clean_id(row.get("parentid"))
+
+            # D3-org-chart requires a valid ID for every node
+            if not emp_id:
+                continue
+
             employees.append({
-                "id": str(row.get("id", "")),
-                "parentId": str(row["parentid"]) if pd.notna(row.get("parentid")) else None,
+                "id": emp_id,
+                "parentId": parent_id, # Root node will correctly be None
                 "name": f"{row.get('first_name', '')} {row.get('last_name', '')}".strip(),
                 "title": row.get("title", "N/A"),
                 "department": row.get("department_name", "N/A")

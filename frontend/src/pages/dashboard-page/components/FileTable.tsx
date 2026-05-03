@@ -73,7 +73,7 @@ export function FileTable({
               const isSelected = selectedFile?.id === file.id;
               
               return (
-                <tr>
+                <tr key={file.id}>
                   <td className="py-3 px-4 text-sm text-gray-900 font-['Inter'] font-medium">
                     {file.filename}
                   </td>
