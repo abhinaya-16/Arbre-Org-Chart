@@ -174,3 +174,48 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
 
     except Exception as e:
         return func.HttpResponse(f"Error processing Excel: {str(e)}", status_code=500)
+
+# -------------------------------
+# Delete File
+# -------------------------------
+@app.route(route="DeleteFile/{fileId}", methods=["DELETE"])
+def delete_file(req: func.HttpRequest) -> func.HttpResponse:
+    try:
+        file_id = req.route_params.get('fileId')
+        user_id = req.headers.get("x-user-id")
+
+        if not file_id or not user_id:
+            return func.HttpResponse("Missing fileId or user_id", status_code=400)
+
+        conn = pyodbc.connect(os.environ["SQL_CONN"])
+        cursor = conn.cursor()
+
+        # 1. Get the blob_url before deleting the record
+        cursor.execute("SELECT blob_url FROM Files WHERE id = ? AND user_id = ?", file_id, user_id)
+        row = cursor.fetchone()
+        
+        if not row:
+            return func.HttpResponse("File not found", status_code=404)
+
+        blob_url = row[0]
+
+        # 2. Parse blob name from URL
+        from urllib.parse import urlparse
+        path = urlparse(blob_url).path.lstrip('/')
+        parts = path.split('/')
+        container_name = parts[0]
+        blob_name = "/".join(parts[1:])
+
+        # 3. Delete from Blob Storage
+        blob_service = BlobServiceClient.from_connection_string(os.environ["BLOB_CONN"])
+        blob_client = blob_service.get_blob_client(container=container_name, blob=blob_name)
+        blob_client.delete_blob()
+
+        # 4. Delete from SQL Database
+        cursor.execute("DELETE FROM Files WHERE id = ? AND user_id = ?", file_id, user_id)
+        conn.commit()
+
+        return func.HttpResponse("Deleted successfully", status_code=200)
+
+    except Exception as e:
+        return func.HttpResponse(f"Delete failed: {str(e)}", status_code=500)

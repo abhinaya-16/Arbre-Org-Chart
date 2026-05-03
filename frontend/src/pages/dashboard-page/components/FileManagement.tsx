@@ -46,10 +46,28 @@ export function FileManagement() {
     setSelectedFile(file);
   };
 
-  const handleDeleteFile = (fileId: string) => {
-    if (selectedFile && selectedFile.id === fileId) setSelectedFile(null);
-    setFiles((prev) => prev.filter((f) => f.id !== fileId));
-    toast.success(`File deleted successfully.`);
+  // const handleDeleteFile = (fileId: string) => {
+  //   if (selectedFile && selectedFile.id === fileId) setSelectedFile(null);
+  //   setFiles((prev) => prev.filter((f) => f.id !== fileId));
+  //   toast.success(`File deleted successfully.`);
+  // };
+
+  const handleDeleteFile = async (fileId: string) => {
+    // 1. Create the promise for the API call
+    const deletePromise = fetch(`http://localhost:5000/api/files/${fileId}`, {
+      method: "DELETE",
+    });
+
+    toast.promise(deletePromise, {
+      loading: 'Deleting file from server...',
+      success: () => {
+        // 2. Update local state on success
+        if (selectedFile && selectedFile.id === fileId) setSelectedFile(null);
+        setFiles((prev) => prev.filter((f) => f.id !== fileId));
+        return `File deleted successfully.`;
+      },
+      error: 'Failed to delete file. Please try again.',
+    });
   };
 
   const filteredFiles = files.filter((file) =>

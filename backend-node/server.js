@@ -84,3 +84,19 @@ app.get("/api/employees", async (req, res) => {
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });
+
+// ------------------------
+// Delete File
+// ------------------------
+app.delete("/api/files/:id", async (req, res) => {
+  try {
+    const fileId = req.params.id;
+    await axios.delete(`${AZURE_BASE}/DeleteFile/${fileId}`, {
+      headers: { "x-user-id": "test-user" }
+    });
+    res.status(200).send("Deleted");
+  } catch (error) {
+    console.error(error.response?.data || error.message);
+    res.status(500).send("Failed to delete file");
+  }
+});

@@ -7,11 +7,9 @@ function OrgChartComponent({ data, setChartInstance }) {
   const d3ContainerRef = useRef(null);
 
   useEffect(() => {
-    // 1. Basic Data Guard
+    // console.log("Org Chart received data:", data);-- Debug log to check data format in console of inspector.
     if (!data || data.length === 0) return;
 
-    // 2. Validation: Ensure at least one node has parentId: null/undefined/empty
-    // D3-org-chart will throw the "missing" error if it can't find a root
     const hasRoot = data.some(
       (d) => d.parentId === null || d.parentId === undefined || d.parentId === ""
     );
@@ -132,7 +130,6 @@ function OrgChartComponent({ data, setChartInstance }) {
         }
       }
 
-      // Update data and re-render
       chartRef.current
         .data(data)
         .svgHeight(containerHeight)
