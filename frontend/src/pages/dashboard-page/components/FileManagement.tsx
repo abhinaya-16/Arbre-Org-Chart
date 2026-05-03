@@ -53,7 +53,6 @@ export function FileManagement() {
   // };
 
   const handleDeleteFile = async (fileId: string) => {
-    // 1. Create the promise for the API call
     const deletePromise = fetch(`http://localhost:5000/api/files/${fileId}`, {
       method: "DELETE",
     });
@@ -61,7 +60,6 @@ export function FileManagement() {
     toast.promise(deletePromise, {
       loading: 'Deleting file from server...',
       success: () => {
-        // 2. Update local state on success
         if (selectedFile && selectedFile.id === fileId) setSelectedFile(null);
         setFiles((prev) => prev.filter((f) => f.id !== fileId));
         return `File deleted successfully.`;

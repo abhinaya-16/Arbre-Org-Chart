@@ -118,7 +118,6 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
 
         blob_service = BlobServiceClient.from_connection_string(os.environ["BLOB_CONN"])
 
-        # URL parsing to get container and blob names
         from urllib.parse import urlparse
         path = urlparse(file_url).path.lstrip('/')
         parts = path.split('/')
@@ -130,23 +129,18 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
         stream = blob_client.download_blob().readall()
         excel_file = io.BytesIO(stream)
         
-        # Read Excel and standardize column names
         df = pd.read_excel(excel_file, engine="openpyxl")
         df.columns = [str(col).lower().strip() for col in df.columns]
 
-        # Helper function to fix Excel numeric IDs being read as floats (e.g., 100.0 -> "100")
         def clean_id(val):
             if pd.isna(val) or str(val).lower() == 'nan' or str(val).strip() == '':
                 return None
             try:
-                # If it's a float or int, convert to int then string
                 if isinstance(val, (float, int)):
                     return str(int(val))
-                # If it's a string that looks like "100.0", cast to float then int
                 float_val = float(val)
                 return str(int(float_val))
             except:
-                # Fallback for non-numeric strings
                 return str(val).strip()
 
         employees = []
@@ -154,13 +148,12 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
             emp_id = clean_id(row.get("id"))
             parent_id = clean_id(row.get("parentid"))
 
-            # D3-org-chart requires a valid ID for every node
             if not emp_id:
                 continue
 
             employees.append({
                 "id": emp_id,
-                "parentId": parent_id, # Root node will correctly be None
+                "parentId": parent_id, 
                 "name": f"{row.get('first_name', '')} {row.get('last_name', '')}".strip(),
                 "title": row.get("title", "N/A"),
                 "department": row.get("department_name", "N/A")
@@ -190,7 +183,6 @@ def delete_file(req: func.HttpRequest) -> func.HttpResponse:
         conn = pyodbc.connect(os.environ["SQL_CONN"])
         cursor = conn.cursor()
 
-        # 1. Get the blob_url before deleting the record
         cursor.execute("SELECT blob_url FROM Files WHERE id = ? AND user_id = ?", file_id, user_id)
         row = cursor.fetchone()
         
@@ -199,19 +191,16 @@ def delete_file(req: func.HttpRequest) -> func.HttpResponse:
 
         blob_url = row[0]
 
-        # 2. Parse blob name from URL
         from urllib.parse import urlparse
         path = urlparse(blob_url).path.lstrip('/')
         parts = path.split('/')
         container_name = parts[0]
         blob_name = "/".join(parts[1:])
 
-        # 3. Delete from Blob Storage
         blob_service = BlobServiceClient.from_connection_string(os.environ["BLOB_CONN"])
         blob_client = blob_service.get_blob_client(container=container_name, blob=blob_name)
         blob_client.delete_blob()
 
-        # 4. Delete from SQL Database
         cursor.execute("DELETE FROM Files WHERE id = ? AND user_id = ?", file_id, user_id)
         conn.commit()
 
