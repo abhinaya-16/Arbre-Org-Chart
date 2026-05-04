@@ -4,6 +4,14 @@ A dynamic, full-stack data visualization platform that transforms complex organi
 
 ![Demo](./frontend/src/assets/demo_v2.gif)
 
+<div align="center">
+  <h3>Video Demo</h3>
+  <a href="https://youtu.be/vksEElQ-yDk">
+    <img src="https://img.youtube.com/vi/vksEElQ-yDk/maxresdefault.jpg" alt="Arbre Org Chart Demo" style="width:100%; max-width:600px; border-radius: 10px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  </a>
+  <p><i>Click to watch the full walkthrough on YouTube</i></p>
+</div>
+
 ## Purpose
 In many enterprise environments, organizational data remains trapped in flat Excel files, making it difficult to visualize reporting lines or departmental structures. **GeniusLab Org-Chart** bridges this gap by providing a seamless interface to ingest, process, and render hierarchical data. 
 
