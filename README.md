@@ -2,8 +2,6 @@
 
 A dynamic, full-stack data visualization platform that transforms complex organizational hierarchies from static spreadsheets into interactive, searchable, and exportable organizational charts.
 
-![Demo](./frontend/src/assets/demo_v2.gif)
-
 <div align="center">
   <h3>Video Demo</h3>
   <a href="https://youtu.be/vksEElQ-yDk">
