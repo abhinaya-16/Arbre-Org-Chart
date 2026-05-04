@@ -16,6 +16,7 @@ const AZURE_BASE = "http://localhost:7071/api";
 // ------------------------
 app.post("/api/upload", upload.single("file"), async (req, res) => {
   try {
+    const userId = req.headers["x-user-id"];
     if (!req.file) return res.status(400).send("No file uploaded.");
 
     const formData = new FormData();
@@ -27,7 +28,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
       {
         headers: {
           ...formData.getHeaders(),
-          "x-user-id": "test-user"
+          "x-user-id": userId
         }
       }
     );
@@ -48,9 +49,10 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 // ------------------------
 app.get("/api/files", async (req, res) => {
   try {
+    const userId = req.headers["x-user-id"];
     const response = await axios.get(`${AZURE_BASE}/GetFiles`, {
       headers: {
-        "x-user-id": "test-user"
+        "x-user-id": userId
       }
     });
 
@@ -91,8 +93,9 @@ app.listen(5000, () => {
 app.delete("/api/files/:id", async (req, res) => {
   try {
     const fileId = req.params.id;
+    const userId = req.headers["x-user-id"];
     await axios.delete(`${AZURE_BASE}/DeleteFile/${fileId}`, {
-      headers: { "x-user-id": "test-user" }
+      headers: { "x-user-id": userId }
     });
     res.status(200).send("Deleted");
   } catch (error) {

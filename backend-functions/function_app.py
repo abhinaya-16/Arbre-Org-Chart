@@ -19,15 +19,12 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
         if not user_id:
             return func.HttpResponse("Missing user ID", status_code=400)
 
-        # 1. Get the file from the form-data
-        # Postman sends files in the 'files' dictionary of the request
         file = req.files.get('file')
         
         if not file:
             return func.HttpResponse("No file found in request (ensure key is 'file')", status_code=400)
 
-        # 2. Capture the actual filename
-        actual_filename = file.filename  # This gets 'Abhinaya_employees.xlsx'
+        actual_filename = file.filename 
         file_bytes = file.read()
         file_size = len(file_bytes)
 
@@ -46,7 +43,6 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
         blob_client.upload_blob(file_bytes, overwrite=True)
         blob_url = blob_client.url
 
-        # 3. Save the actual_filename and file_size to the database
         conn = pyodbc.connect(os.environ["SQL_CONN"])
         cursor = conn.cursor()
 
@@ -70,6 +66,9 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
 def get_files(req: func.HttpRequest) -> func.HttpResponse:
     try:
         user_id = req.headers.get("x-user-id")
+
+        if not user_id:
+            return func.HttpResponse("Unauthorized", status_code=401)
 
         conn = pyodbc.connect(os.environ["SQL_CONN"])
         cursor = conn.cursor()

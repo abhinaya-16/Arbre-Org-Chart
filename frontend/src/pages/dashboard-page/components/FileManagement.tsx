@@ -5,6 +5,7 @@ import { FileTable } from "./FileTable";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { UploadFileButton } from "./UploadFileButton";
+import { useMsal } from "@azure/msal-react";
 
 interface FileItem {
   id: string;
@@ -29,6 +30,10 @@ interface FileItem {
 
 
 export function FileManagement() {
+  const { accounts } = useMsal();
+  const user = accounts[0];
+  const userId = user?.homeAccountId || "guest";
+
   const navigate = useNavigate();
   // const [files, setFiles] = useState<FileItem[]>(initialFiles);
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -36,11 +41,17 @@ export function FileManagement() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/files")
+    if (!user || userId === "guest") return;
+
+    fetch("http://localhost:5000/api/files", {
+      headers: { 
+        "x-user-id": userId 
+      }
+    })
       .then(res => res.json())
       .then(data => setFiles(data))
       .catch(() => toast.error("Failed to load files"));
-  }, []);
+  }, [userId, user]);
 
   const handleSelectFile = (file: FileItem) => {
     setSelectedFile(file);
@@ -55,6 +66,7 @@ export function FileManagement() {
   const handleDeleteFile = async (fileId: string) => {
     const deletePromise = fetch(`http://localhost:5000/api/files/${fileId}`, {
       method: "DELETE",
+      headers: { "x-user-id": userId }
     });
 
     toast.promise(deletePromise, {
@@ -84,7 +96,11 @@ export function FileManagement() {
           </div>
           <UploadFileButton
             onUploadSuccess={async () => {
-              const res = await fetch("http://localhost:5000/api/files");
+              const res = await fetch("http://localhost:5000/api/files", {
+                headers: { 
+                  "x-user-id": userId 
+                }
+              });
               const data = await res.json();
               setFiles(data);
             }}

@@ -2,6 +2,7 @@ import React from "react";
 import { Upload } from "lucide-react";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { useMsal } from "@azure/msal-react";
 
 interface UploadFileButtonProps {
   onUploadSuccess?: () => void;
@@ -10,6 +11,10 @@ interface UploadFileButtonProps {
 export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   onUploadSuccess,
 }) => {
+  const { accounts } = useMsal(); // 2. Get account info
+  const user = accounts[0];
+  const userId = user?.homeAccountId || ""; // 3. Extract the unique ID
+
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -54,16 +59,19 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
       const response = await fetch("http://localhost:5000/api/upload", {
         method: "POST",
         body: formData,
+        headers: {
+          "x-user-id": userId, // 4. Add the header here!
+        },
       });
 
       if (response.ok) {
         toast.success("File uploaded successfully");
-
         if (onUploadSuccess) {
-          onUploadSuccess(); // 🔥 no fake data anymore
+          onUploadSuccess(); 
         }
       } else {
-        toast.error("Upload failed");
+        const errorData = await response.text();
+        toast.error(`Upload failed: ${errorData}`);
       }
     } 
     catch (error) {
