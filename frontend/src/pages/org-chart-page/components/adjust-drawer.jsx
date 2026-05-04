@@ -19,7 +19,8 @@ import FitToScreenButton from "./fit-to-screen-button";
 import ExpandButton from "./expand-button";
 import CollapseButton from "./collapse-button";
 
-export default function AdjustDrawer({ chartInstance, onDataUpload }) {
+//export default function AdjustDrawer({ chartInstance, onDataUpload }) {
+export default function AdjustDrawer({ chartInstance }) {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -39,7 +40,7 @@ export default function AdjustDrawer({ chartInstance, onDataUpload }) {
     >
       <List sx={{ pt: 8 }}>
 
-        <ListItem 
+        {/* <ListItem 
           disablePadding
           sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
           onClick={(e) => e.stopPropagation()} // Prevents drawer from closing when clicking the button
@@ -48,7 +49,7 @@ export default function AdjustDrawer({ chartInstance, onDataUpload }) {
             onDataUpload(data);
             setOpen(false); // Optionally close drawer after successful upload
           }} />
-        </ListItem>
+        </ListItem> */}
         
         <ListItem 
           disablePadding
@@ -69,7 +70,7 @@ export default function AdjustDrawer({ chartInstance, onDataUpload }) {
           disablePadding
           sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
         >
-          <FitToScreenButton/>
+          <FitToScreenButton chartInstance={chartInstance} />
         </ListItem>
         
         <ListItem 
