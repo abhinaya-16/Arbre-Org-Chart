@@ -2,12 +2,22 @@ import Button from '@mui/material/Button';
 import ExpandIcon from '../assets/expand.svg?react';
 // collapses the navbar and expands the chart to full screen, or restores it back to normal size if already in full screen mode
 
-export default function ExpandButton() {
+export default function ExpandButton({ chartInstance }) {
+
+ const handleExpandAll = () => {
+    if (chartInstance) {
+      chartInstance
+        .expandAll()
+        .render()
+        .fit();
+    }
+  };
 
   return (
     <Button 
       variant="outlined" 
       fullWidth
+      onClick={handleExpandAll}
       startIcon={<ExpandIcon style={{ width: 18, height: 18 }} />}
       sx={{
         borderRadius: '50px', 

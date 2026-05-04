@@ -77,14 +77,14 @@ export default function AdjustDrawer({ chartInstance }) {
           disablePadding
           sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
         >
-          <ExpandButton/>
+          <ExpandButton chartInstance={chartInstance}/>
         </ListItem>
 
         <ListItem 
           disablePadding
           sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
         >
-          <CollapseButton/>
+          <CollapseButton chartInstance={chartInstance}/>
         </ListItem>
       </List>
     </Box>
