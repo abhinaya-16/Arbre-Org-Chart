@@ -20,20 +20,33 @@ Built with a focus on performance and user experience, this tool allows HR profe
 ## Technical Stack
 
 * **Frontend:** React, D3.js (via `d3-org-chart`) for high-performance SVG rendering.
-* **Backend:** Node.js, Express.js.
+* **Backend:** 
+    - Node.js, Express.js.
+    - Python (Flask) Backend functions for processing & data transformation
 * **Data Processing:** ExcelJS for server-side parsing of `.xlsx` files.
 * **Authentication & Identity:** 
     - Microsoft Entra External ID (Single-tenant configuration) 
     - MSAL.js for secure OAuth 2.0 / OpenID Connect flows 
     - Token-based authentication with protected routes and session management
-* **Cloud & Identity Protocols:** OAuth 2.0, OpenID Connect (OIDC)
+* **Cloud & Identity Protocols:** 
+    - Azure Blob Storage → File storage for uploaded documents
+    - Azure SQL Database → stores file metadata
+    - Azure Functions → Serverless backend processing for file handling and parsing
 * **Styling:** Custom CSS with a focus on clean, modern UI and intuitive navigation.
 ---
 
 ## Key Features
 
+* **File Upload & Processing:** Upload organizational data files (Excel).
 * **Automated Hierarchy Logic:** Automatically converts flat Excel rows (ID/ParentID) into a nested JSON tree structure.
+* **Dashboard & Insights:** Summary of uploaded files and processed data. Metadata tracking (timestamps, file size, status)
 * **Interactive Visualization:** Smooth zooming, panning, and collapsing/expanding of organizational branches.
+* **API-Driven Architecture:** Clean separation of frontend and backend. Modular API endpoints for:
+    - File upload
+    - Data management
+    - Org chart generation
+    - Employee Data retrieval
+* **Cloud-Native Design:** Serverless processing using Azure Functions. Scalable file storage via Azure Blob Storage
 * **Search & Locate:** Integrated search functionality to instantly find and center on specific employees.
 * **PDF Export:** Client-side PDF generation to share specific views of the organizational chart.
 * **Custom UI Components:** Tailored node designs featuring employee roles and unique departmental icons.
@@ -51,12 +64,36 @@ Built with a focus on performance and user experience, this tool allows HR profe
 git clone [https://github.com/abhinayakondi/GeniusLab-Org-chart.git](https://github.com/abhinayakondi/GeniusLab-Org-chart.git)
 cd GeniusLab-Org-chart
 ```
-
-### 2. Backend Setup
+### 2. Backend Functions (Python) Setup
 
 1.  **Navigate** to the server directory:
     ```bash
-    cd backend
+    cd backend-functions
+    ```
+2.  **Create virtual environment**:
+    ```bash
+    python -m venv .venv
+    ```
+3.  **Activate (Git Bash)**: 
+    ```bash
+    source .venv/Scripts/activate
+    ```
+4.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+5.  **Run**:
+    ```bash
+    func start
+    ```
+
+---
+
+### 3. Backend Node Setup
+
+1.  **Navigate** to the server directory:
+    ```bash
+    cd backend-node
     ```
 2.  **Install dependencies**:
     ```bash
@@ -84,6 +121,14 @@ cd GeniusLab-Org-chart
     ```bash
     npm run dev
     ```
+
+---
+
+### 4. Run Full Application
+
+1.  **Frontend →** http://localhost:3000
+2.  **Backend →** http://localhost:5000
+3.  **Azure Functions →** http://localhost:7071
 
 ---
 
