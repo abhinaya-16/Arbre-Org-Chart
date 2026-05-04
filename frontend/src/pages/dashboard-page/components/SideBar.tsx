@@ -6,6 +6,7 @@ import {
   Workflow,
   ChevronLeft,
   ChevronRight,
+  LogOut
 } from "lucide-react";
 import { Button } from "./ui/button";
 
@@ -14,13 +15,15 @@ interface SidebarProps {
   onItemClick: (item: string) => void;
   isCollapsed: boolean;
   onToggle: () => void;
+  onLogout: () => void;
 }
 
 export function Sidebar({
   activeItem,
   onItemClick,
   isCollapsed,
-  onToggle
+  onToggle,
+  onLogout
 }: SidebarProps) {
   const menuItems = [
     // { id: "chart-view", label: "Chart View", icon: Workflow, },
@@ -39,7 +42,9 @@ export function Sidebar({
       >
         {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
       </Button>
-      <div className="p-6">
+
+      {/* Main Content Area */}
+      <div className="p-6 flex-1">
         <div className={`flex items-center space-x-2 mb-8 ${isCollapsed ? "justify-center" : ""}`}>
           <img src={Logo} alt="Arbre Logo" className="h-8 w-8 object-contain shrink-0" />
           {!isCollapsed && (
@@ -76,6 +81,21 @@ export function Sidebar({
           </nav>
         </div>
       </div>
+
+     {/* Bottom Section: Logout */}
+      <div className="pt-4 pb-4 pr-6 pl-6 border-t border-gray-100 mt-80">
+        <button
+          onClick={onLogout}
+          className={`cursor-pointer font-['Inter'] text-sm w-full flex items-center px-3 py-2 rounded-lg text-left transition-colors text-gray-900 hover:bg-gray-100 ${
+            isCollapsed ? "justify-center" : "space-x-3"
+          }`}
+          title={isCollapsed ? "Logout" : ""}
+        >
+          <LogOut className="w-5 h-5 shrink-0" />
+          {!isCollapsed && <span className="font-medium">Logout</span>}
+        </button>
+      </div>
+
     </div>
   );
 }

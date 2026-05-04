@@ -9,17 +9,25 @@ import {
 } from "./ui/dropdown-menu";
 
 const formatTime = (iso: string) => {
-  const date = new Date(iso);
+  const utcString = iso.endsWith("Z") ? iso : `${iso}Z`;
+  const date = new Date(utcString);
+  const timeZone = "America/Toronto";
 
-  return `${date.toLocaleString("en-US", {
+  const datePart = date.toLocaleString("en-US", {
     month: "short",
     day: "2-digit",
     year: "numeric",
-  })} ${date.toLocaleString("en-US", {
+    timeZone: timeZone,
+  });
+
+  const timePart = date.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
-  })}`;
+    timeZone: timeZone,
+  });
+
+  return `${datePart} ${timePart}`;
 };
 
 interface FileItem {

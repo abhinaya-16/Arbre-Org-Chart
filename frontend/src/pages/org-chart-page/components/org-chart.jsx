@@ -36,11 +36,11 @@ function OrgChartComponent({ data, setChartInstance }) {
             d3.select(this)
               .select(".node-rect")
               .attr("width", 240)
-              .attr("height", 140)
+              .attr("height", 122)
               .attr("x", 0)
               .attr("y", 0)
               .attr("rx", 12)
-              .attr("stroke", isHighlighted ? "#000000" : "none")
+              .attr("stroke", isHighlighted ? "#000000" : "none") //<=
               .attr("stroke-width", isHighlighted ? 5 : 0)
               .attr("fill", "transparent");
           })
@@ -85,7 +85,7 @@ function OrgChartComponent({ data, setChartInstance }) {
                   }" markerWidth="500" markerHeight="500" refY="2" refX="1" orient="${
                     conn._source.x < conn._target.x ? "auto" : "auto-start-reverse"
                   }">
-                    <path d='M0,0 V4 L2,2 Z' fill='#000000' />
+                    <path d='M0,0 V4 L2,2 Z' fill='#FF0000' />
                   </marker>
                 `;
                 })

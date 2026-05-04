@@ -1,23 +1,23 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
 
 import IconButton from '@mui/material/IconButton';
 import AvatarIcon from '../assets/user-svgrepo-com.svg?react';
 import LogoutIcon from '../assets/arrow-right-from-bracket-svgrepo-com.svg?react';
 import SettingsIcon from '../assets/sun-alt-svgrepo-com.svg?react';
 import AvatarIcon2 from '../assets/circle-user-svgrepo-com.svg?react';
+import FileIcon from '../assets/file-alt-svgrepo-com.svg?react';
 import { useMsal } from "@azure/msal-react";
+import { useNavigate } from "react-router-dom";
 
 export default function AccountMenu() {
   const { instance } = useMsal();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -34,6 +34,11 @@ export default function AccountMenu() {
     instance.logoutRedirect({
       postLogoutRedirectUri: "/", // Where to go after logout
     });
+  };
+
+  const handleFileDirectory = () => {
+    handleClose();
+    navigate("/dashboard"); 
   };
 
   return (
@@ -128,7 +133,31 @@ export default function AccountMenu() {
           </IconButton>
           My account
         </MenuItem>
+        
         <Divider />
+
+        <MenuItem onClick={handleFileDirectory} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
+          <ListItemIcon>
+            <IconButton
+            sx={{
+              '& svg': {
+                  fontSize: '18px', 
+                  width: '20px',
+                  height: '20px',
+                  position: 'relative',
+                  top: '0px',    // Positive moves down, negative moves up
+                  left: '0px',  // Positive moves right, negative moves left
+              },
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}>
+            <FileIcon />
+          </IconButton>
+          </ListItemIcon>
+          File Directory
+        </MenuItem>
+        
         <MenuItem onClick={handleClose} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
           <ListItemIcon>
             <IconButton
@@ -150,24 +179,25 @@ export default function AccountMenu() {
           </ListItemIcon>
           Settings
         </MenuItem>
+
         <MenuItem onClick={handleLogout} sx={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 14, py: 0, px: 1.5 }}>
           <ListItemIcon>
             <IconButton
-            sx={{
-              '& svg': {
-                  fontSize: '18px', 
-                  width: '20px',
-                  height: '20px',
-                  position: 'relative',
-                  top: '0px',    // Positive moves down, negative moves up
-                  left: '0px',  // Positive moves right, negative moves left
-              },
-              '&:hover': {
-                backgroundColor: 'transparent',
-              },
-            }}>
-            <LogoutIcon />
-          </IconButton>
+              sx={{
+                '& svg': {
+                    fontSize: '18px', 
+                    width: '20px',
+                    height: '20px',
+                    position: 'relative',
+                    top: '0px',    // Positive moves down, negative moves up
+                    left: '0px',  // Positive moves right, negative moves left
+                },
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                },
+              }}>
+              <LogoutIcon />
+            </IconButton>
           </ListItemIcon>
           Logout
         </MenuItem>
