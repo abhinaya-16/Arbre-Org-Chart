@@ -63,7 +63,7 @@ export default function AdjustDrawer({ chartInstance }) {
           disablePadding
           sx={{ justifyContent: 'left', pr: 2, pl: 8, py: 0.5 }} 
         >
-          <FullScreenButton/>
+          <FullScreenButton chartInstance={chartInstance}/>
         </ListItem>
 
         <ListItem 
