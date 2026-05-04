@@ -13,7 +13,7 @@ export default function SearchAppBar({ chartInstance, data, onDataUpload }) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation={0} sx={{ backgroundColor: '#fff' }}>
         <Toolbar>
-          {/* <img src={Logo} alt="Arbre Logo" style={{ width: 32, height: 30, marginRight: 12 }} />
+          <img src={Logo} alt="Arbre Logo" style={{ width: 32, height: 30, marginRight: 12 }} />
           <Typography
             variant="h6"
             noWrap
@@ -21,7 +21,7 @@ export default function SearchAppBar({ chartInstance, data, onDataUpload }) {
             sx={{ display: { xs: 'none', sm: 'block' }, color: '#000', mr: 2, fontFamily: 'Inter', fontWeight: 400, fontSize: 18 }}
           >
             Arbre Org Chart
-          </Typography> */}
+          </Typography>
           <SearchField chartInstance={chartInstance} data={data} sx={{ mr: 2, }}  />
           <Box sx={{ flexGrow: 1 }} />
           <AdjustDrawer chartInstance={chartInstance} onDataUpload={onDataUpload} />
