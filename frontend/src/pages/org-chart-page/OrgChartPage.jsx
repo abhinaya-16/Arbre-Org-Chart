@@ -13,7 +13,7 @@ function OrgChartPage() {
   useEffect(() => {
     if (!fileUrl) return;
 
-    fetch(`http://localhost:5000/api/employees?fileUrl=${encodeURIComponent(fileUrl)}`)
+    fetch(`http://localhost:7071/api/GetEmployees?fileUrl=${encodeURIComponent(fileUrl)}`)
       .then(res => res.json())
       .then(data => setEmployees(data))
       .catch(() => console.error("Failed to fetch employees"));

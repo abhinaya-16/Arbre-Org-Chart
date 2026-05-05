@@ -12,7 +12,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import IconButton from '@mui/material/IconButton';
 import StackIcon from '../assets/align-center-alt-svgrepo-com.svg?react';
-import UploadButton from './upload-button';
+//import UploadButton from './upload-button';
 import ExportPDFButton from "../components/export-pdf-button";
 import FullScreenButton from "./full-screen-button";
 import FitToScreenButton from "./fit-to-screen-button";

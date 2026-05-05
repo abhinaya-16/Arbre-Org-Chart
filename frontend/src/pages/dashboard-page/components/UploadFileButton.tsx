@@ -30,6 +30,8 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
     const formData = new FormData();
     formData.append("file", file);
 
+    console.log([...formData.entries()]);
+
     // const now = new Date();
 
     // const formattedTime = `${now.toLocaleString("en-US", {
@@ -56,7 +58,7 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
     // };
 
     try {
-      const response = await fetch("http://localhost:5000/api/upload", {
+      const response = await fetch("http://localhost:7071/api/UploadFile", {
         method: "POST",
         body: formData,
         headers: {

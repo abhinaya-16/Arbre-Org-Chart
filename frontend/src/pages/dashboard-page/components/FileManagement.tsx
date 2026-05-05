@@ -43,7 +43,7 @@ export function FileManagement() {
   useEffect(() => {
     if (!user || userId === "guest") return;
 
-    fetch("http://localhost:5000/api/files", {
+    fetch("http://localhost:7071/api/GetFiles", {
       headers: { 
         "x-user-id": userId 
       }
@@ -64,7 +64,7 @@ export function FileManagement() {
   // };
 
   const handleDeleteFile = async (fileId: string) => {
-    const deletePromise = fetch(`http://localhost:5000/api/files/${fileId}`, {
+    const deletePromise = fetch(`http://localhost:7071/api/DeleteFile/${fileId}`, {
       method: "DELETE",
       headers: { "x-user-id": userId }
     });
@@ -96,7 +96,7 @@ export function FileManagement() {
           </div>
           <UploadFileButton
             onUploadSuccess={async () => {
-              const res = await fetch("http://localhost:5000/api/files", {
+              const res = await fetch("http://localhost:7071/api/GetFiles", {
                 headers: { 
                   "x-user-id": userId 
                 }
