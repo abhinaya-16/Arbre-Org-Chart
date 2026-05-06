@@ -89,24 +89,6 @@ cd GeniusLab-Org-chart
 
 ---
 
-### 3. Backend Node Setup
-
-1.  **Navigate** to the server directory:
-    ```bash
-    cd backend-node
-    ```
-2.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
-3.  **Prepare Data**: Ensure your employee data is formatted in `employees.xlsx` within the root server folder.
-4.  **Start the server**:
-    ```bash
-    node server.js
-    ```
-
----
-
 ### 3. Frontend Setup
 
 1.  **Navigate** to the client directory:
