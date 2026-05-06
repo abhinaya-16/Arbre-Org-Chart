@@ -72,7 +72,7 @@ cd GeniusLab-Org-chart
     ```
 2.  **Create virtual environment**:
     ```bash
-    python -m venv .venv
+    py -3.12 -m venv .venv
     ```
 3.  **Activate (Git Bash)**: 
     ```bash
