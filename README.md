@@ -2,6 +2,9 @@
 
 A dynamic, full-stack data visualization platform that transforms complex organizational hierarchies from static spreadsheets into interactive, searchable, and exportable organizational charts.
 
+## 🌐 Live Demo
+Check out the live application here: [Arbre Org Chart](https://arbre-org-chart.vercel.app/)
+
 <div align="center">
   <h3>Video Demo</h3>
   <a href="https://youtu.be/vksEElQ-yDk">
