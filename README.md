@@ -110,8 +110,7 @@ cd GeniusLab-Org-chart
 ### 4. Run Full Application
 
 1.  **Frontend →** http://localhost:3000
-2.  **Backend →** http://localhost:5000
-3.  **Azure Functions →** http://localhost:7071
+2.  **Azure Functions →** http://localhost:7071
 
 ---
 
