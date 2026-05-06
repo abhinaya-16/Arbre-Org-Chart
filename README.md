@@ -87,8 +87,6 @@ cd GeniusLab-Org-chart
     func start
     ```
 
----
-
 ### 3. Frontend Setup
 
 1.  **Navigate** to the client directory:
