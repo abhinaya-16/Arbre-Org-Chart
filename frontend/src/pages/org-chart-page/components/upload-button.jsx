@@ -15,6 +15,7 @@
 // });
 
 // export default function InputFileUpload({ onUploadSuccess }) {
+//   const API_BASE = import.meta.env.VITE_API_BASE_URL;
 //   const handleFileChange = async (event) => {
 //     const file = event.target.files[0];
 //     if (!file) return;
@@ -23,7 +24,7 @@
 //     formData.append("file", file);
 
 //     try {
-//       const response = await fetch("http://localhost:7071/api/UploadFile", {
+//       const response = await fetch(`${API_BASE}/UploadFile`, {
 //         method: "POST",
 //         body: formData,
 //       });

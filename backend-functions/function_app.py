@@ -5,15 +5,20 @@ import uuid
 import pyodbc
 import pandas as pd
 import io
+import logging
 from azure.storage.blob import BlobServiceClient, BlobClient
 
-app = func.FunctionApp()
-
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+def clean_id(val):
+    if val is None or str(val).strip() == "":
+        return None
+    return str(val).split('.')[0]
 # -------------------------------
 # Upload File (FIXED)
 # -------------------------------
 @app.route(route="UploadFile", methods=["POST"])
 def upload_file(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Processing UploadFile request.')
     try:
         user_id = req.headers.get("x-user-id")
         if not user_id:
@@ -64,6 +69,7 @@ def upload_file(req: func.HttpRequest) -> func.HttpResponse:
 # -------------------------------
 @app.route(route="GetFiles", methods=["GET"])
 def get_files(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Processing GetFiles request.')
     try:
         user_id = req.headers.get("x-user-id")
 
@@ -110,6 +116,7 @@ def get_files(req: func.HttpRequest) -> func.HttpResponse:
 # -------------------------------
 @app.route(route="GetEmployees", methods=["GET"])
 def get_employees(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Processing GetEmployees request.')
     try:
         file_url = req.params.get("fileUrl")
         if not file_url:
@@ -172,6 +179,7 @@ def get_employees(req: func.HttpRequest) -> func.HttpResponse:
 # -------------------------------
 @app.route(route="DeleteFile/{fileId}", methods=["DELETE"])
 def delete_file(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('Processing DeleteFile request.')
     try:
         file_id = req.route_params.get('fileId')
         user_id = req.headers.get("x-user-id")

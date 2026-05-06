@@ -9,11 +9,12 @@ function OrgChartPage() {
   const fileUrl = location.state?.fileUrl;
   const [employees, setEmployees] = useState([]);
   const [chartInstance, setChartInstance] = useState(null);
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     if (!fileUrl) return;
 
-    fetch(`http://localhost:7071/api/GetEmployees?fileUrl=${encodeURIComponent(fileUrl)}`)
+    fetch(`${API_BASE}/GetEmployees?fileUrl=${encodeURIComponent(fileUrl)}`)
       .then(res => res.json())
       .then(data => setEmployees(data))
       .catch(() => console.error("Failed to fetch employees"));

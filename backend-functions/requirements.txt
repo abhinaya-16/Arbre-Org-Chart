@@ -1,5 +1,5 @@
 azure-core==1.40.0
-azure-functions==2.1.0
+azure-functions==1.21.0
 azure-storage-blob==12.28.0
 certifi==2026.4.22
 cffi==2.0.0

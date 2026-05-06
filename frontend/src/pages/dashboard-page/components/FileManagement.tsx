@@ -39,11 +39,12 @@ export function FileManagement() {
   const [files, setFiles] = useState<FileItem[]>([]);
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     if (!user || userId === "guest") return;
 
-    fetch("http://localhost:7071/api/GetFiles", {
+    fetch(`${API_BASE}/GetFiles`, {
       headers: { 
         "x-user-id": userId 
       }
@@ -64,7 +65,7 @@ export function FileManagement() {
   // };
 
   const handleDeleteFile = async (fileId: string) => {
-    const deletePromise = fetch(`http://localhost:7071/api/DeleteFile/${fileId}`, {
+    const deletePromise = fetch(`${API_BASE}/DeleteFile/${fileId}`, {
       method: "DELETE",
       headers: { "x-user-id": userId }
     });
@@ -96,7 +97,7 @@ export function FileManagement() {
           </div>
           <UploadFileButton
             onUploadSuccess={async () => {
-              const res = await fetch("http://localhost:7071/api/GetFiles", {
+              const res = await fetch(`${API_BASE}/GetFiles`, {
                 headers: { 
                   "x-user-id": userId 
                 }

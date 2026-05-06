@@ -14,6 +14,7 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
   const { accounts } = useMsal(); // 2. Get account info
   const user = accounts[0];
   const userId = user?.homeAccountId || ""; // 3. Extract the unique ID
+  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -58,7 +59,7 @@ export const UploadFileButton: React.FC<UploadFileButtonProps> = ({
     // };
 
     try {
-      const response = await fetch("http://localhost:7071/api/UploadFile", {
+      const response = await fetch(`${API_BASE}/UploadFile`, {
         method: "POST",
         body: formData,
         headers: {
