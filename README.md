@@ -3,7 +3,7 @@
 A dynamic, full-stack data visualization platform that transforms complex organizational hierarchies from static spreadsheets into interactive, searchable, and exportable organizational charts.
 
 ## 🌐 Live Demo
-Check out the live application here: [Arbre Org Chart](https://arbre-org-chart.vercel.app/)
+Check out the live application here (Wait for it to load): [Arbre Org Chart](https://arbre-org-chart.vercel.app/)
 
 <div align="center">
   <h3>Video Demo</h3>
@@ -109,7 +109,7 @@ cd GeniusLab-Org-chart
 
 ### 4. Run Full Application
 
-1.  **Frontend →** http://localhost:3000
+1.  **Frontend →** http://localhost:5173
 2.  **Azure Functions →** http://localhost:7071
 
 ---
